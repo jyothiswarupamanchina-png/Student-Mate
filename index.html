@@ -1,0 +1,2585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="StudyPilot AI - Dynamic Multi-User Student Academic Assistant. Features AI Tutor, Smart Study Planner, Notes Summarizer, Quiz Generator, Wellness Tracker, and Progress Analytics.">
+  <title>StudyPilot AI | Student Academic & Study Assistant</title>
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome 6.5.1 for crisp academic icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Chart.js for data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/features.css">
+  <link rel="stylesheet" href="css/exam-learning.css">
+</head>
+<body class="theme-light">
+  <div class="app-container">
+    
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#dashboard" class="brand-logo" id="brandLogo">
+          <div class="logo-icon-wrap">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span class="sparkle-dot"></span>
+          </div>
+          <div class="brand-text">
+            <h2>StudyPilot<span class="ai-badge">AI</span></h2>
+            <p class="brand-sub">Academic Co-Pilot</p>
+          </div>
+        </a>
+        <button class="btn-icon mobile-close-btn" id="sidebarCloseBtn" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Dynamic Semester / Student Pill -->
+      <div class="semester-pill" id="sidebarSemesterPill">
+        <div class="pill-dot"></div>
+        <span id="sidebarSemesterText">Academic Term &bull; Active</span>
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="sidebar-nav" aria-label="Main Navigation">
+        <div class="nav-group-title">MAIN WORKSPACE</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#dashboard" class="nav-link active" data-section="dashboard" id="navDashboard">
+              <i class="fa-solid fa-chart-pie nav-icon"></i>
+              <span class="nav-label">Dashboard</span>
+              <span class="nav-pill">Overview</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#ai-tutor" class="nav-link" data-section="ai-tutor" id="navAiTutor">
+              <i class="fa-solid fa-wand-magic-sparkles nav-icon ai-glow"></i>
+              <span class="nav-label">AI Tutor</span>
+              <span class="nav-badge api-status-tag" id="sidebarApiTag">API Ready</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#study-planner" class="nav-link" data-section="study-planner" id="navStudyPlanner">
+              <i class="fa-solid fa-list-check nav-icon"></i>
+              <span class="nav-label">Study Planner</span>
+              <span class="counter-badge" id="sidebarPendingTaskCount">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#study-tracker" class="nav-link" data-section="study-tracker" id="navStudyTracker">
+              <i class="fa-solid fa-stopwatch nav-icon"></i>
+              <span class="nav-label">Study Time Tracker</span>
+              <span class="nav-pill" id="navTrackerLivePill" style="display:none; background:#4ade80; color:#14532d; font-weight:700;">Live</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#summarizer" class="nav-link" data-section="summarizer" id="navSummarizer">
+              <i class="fa-solid fa-file-lines nav-icon"></i>
+              <span class="nav-label">Notes & PDF</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#quiz-generator" class="nav-link" data-section="quiz-generator" id="navQuizGenerator">
+              <i class="fa-solid fa-bolt-lightning nav-icon"></i>
+              <span class="nav-label">Quiz Generator</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-group-title">ACADEMIC & HEALTH</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#gpa-calculator" class="nav-link" data-section="gpa-calculator" id="navGpaCalculator">
+              <i class="fa-solid fa-calculator nav-icon"></i>
+              <span class="nav-label">GPA/CGPA Calculator</span>
+              <span class="nav-pill">Multi-Reg</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#wellness-tracker" class="nav-link" data-section="wellness-tracker" id="navWellness">
+              <i class="fa-solid fa-heart-pulse nav-icon"></i>
+              <span class="nav-label">Wellness Tracker</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#calendar" class="nav-link" data-section="calendar" id="navCalendar">
+              <i class="fa-solid fa-calendar-days nav-icon"></i>
+              <span class="nav-label">Academic Calendar</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#progress-reports" class="nav-link" data-section="progress-reports" id="navReports">
+              <i class="fa-solid fa-chart-line nav-icon"></i>
+              <span class="nav-label">Progress Reports</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-group-title">EXAM &amp; LEARNING</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#exam-learning" class="nav-link" data-section="exam-learning" id="navExamLearning">
+              <i class="fa-solid fa-clipboard-list nav-icon"></i>
+              <span class="nav-label">Exam &amp; Learning</span>
+              <span class="nav-pill">New</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Sidebar Mini Pomodoro Card -->
+      <div class="sidebar-pomodoro-widget" id="sidebarPomodoro">
+        <div class="widget-top">
+          <span class="widget-title"><i class="fa-solid fa-stopwatch"></i> Quick Focus</span>
+          <span class="widget-mode" id="sidebarPomoMode">Study</span>
+        </div>
+        <div class="timer-display" id="sidebarPomoTimer">25:00</div>
+        <div class="widget-actions">
+          <button class="pomo-mini-btn primary" id="sidebarPomoStartBtn">
+            <i class="fa-solid fa-play"></i> Start
+          </button>
+          <button class="pomo-mini-btn outline" id="sidebarPomoResetBtn" title="Reset Timer">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sidebar Footer / Account & AI Integration Link -->
+      <div class="sidebar-footer">
+        <button class="ai-connect-banner-btn mb-2" id="sidebarAccountBtn" title="Student Profile & Authentication">
+          <div class="ai-icon-bubble user-bubble">
+            <i class="fa-solid fa-user-graduate"></i>
+          </div>
+          <div class="ai-connect-info">
+            <span class="ai-status-title" id="sidebarUserTitle">Guest Student</span>
+            <span class="ai-status-sub" id="sidebarUserSub">Click to Login / Switch</span>
+          </div>
+          <i class="fa-solid fa-right-to-bracket arrow-icon" id="sidebarAuthIcon"></i>
+        </button>
+
+        <button class="ai-connect-banner-btn" id="openAiSettingsBtn" title="Configure Real AI API">
+          <div class="ai-icon-bubble">
+            <i class="fa-solid fa-plug-circle-bolt"></i>
+          </div>
+          <div class="ai-connect-info">
+            <span class="ai-status-title">AI Engine Settings</span>
+            <span class="ai-status-sub" id="sidebarApiSub">Configure API Key</span>
+          </div>
+          <i class="fa-solid fa-chevron-right arrow-icon"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="main-wrapper">
+      
+      <!-- TOP NAVIGATION BAR -->
+      <header class="top-nav" id="topNav">
+        <div class="top-nav-left">
+          <button class="btn-icon mobile-menu-toggle" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="globalSearchInput" placeholder="Search subjects, notes, quizzes, or tasks... (Ctrl + K)" autocomplete="off">
+            <kbd class="search-shortcut">âŒ˜K</kbd>
+          </div>
+        </div>
+
+        <div class="top-nav-right">
+          <!-- Live Date & Time -->
+          <div class="top-date-badge d-none-sm">
+            <i class="fa-regular fa-clock"></i>
+            <span id="currentDateDisplay">Oct 26, 2026</span>
+          </div>
+
+          <!-- Spring Boot Backend Status Pill -->
+          <button class="api-status-pill backend-pill" id="backendStatusPill" title="Spring Boot REST API & MySQL Status">
+            <span class="status-indicator-dot" id="backendStatusDot"></span>
+            <span class="api-pill-text" id="backendStatusText">Backend: Checking...</span>
+          </button>
+
+          <!-- AI API Status Pill -->
+          <button class="api-status-pill" id="topApiStatusBtn" title="Click to view or connect AI API credentials">
+            <span class="status-indicator-dot" id="topApiIndicator"></span>
+            <span class="api-pill-text" id="topApiStatusText">AI Integration: Ready</span>
+          </button>
+
+          <!-- Notifications Dropdown Trigger -->
+          <div class="dropdown-wrap">
+            <button class="btn-icon notification-btn" id="notificationsBtn" aria-label="Notifications">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notification-badge" id="notificationBadge">0</span>
+            </button>
+            <div class="dropdown-menu notification-menu" id="notificationDropdown">
+              <div class="dropdown-header">
+                <h4>Notifications</h4>
+                <span class="badge-count" id="notificationCount">0</span>
+              </div>
+              <ul class="notification-list" id="notificationList">
+                <!-- Dynamically populated or empty state -->
+              </ul>
+            </div>
+          </div>
+
+          <!-- User Profile Dropdown Trigger -->
+          <div class="dropdown-wrap">
+            <button class="user-profile-trigger" id="profileDropdownBtn">
+              <div class="user-avatar-wrap">
+                <div class="user-avatar-initial" id="topNavAvatarInitial">ST</div>
+                <span class="user-online-badge"></span>
+              </div>
+              <div class="user-meta d-none-sm">
+                <span class="user-name" id="topNavUserName">Student</span>
+                <span class="user-role" id="topNavUserRole">Enrolled</span>
+              </div>
+              <i class="fa-solid fa-chevron-down dropdown-arrow d-none-sm"></i>
+            </button>
+            <div class="dropdown-menu profile-menu" id="profileDropdown">
+              <div class="profile-header-info">
+                <strong id="profileDropdownName">Student Account</strong>
+                <span class="student-id" id="profileDropdownId">ID: --</span>
+                <span class="user-gpa-tag" id="profileDropdownGpa"><i class="fa-solid fa-star"></i> GPA: --</span>
+              </div>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-link" id="openProfileModalBtn">
+                <i class="fa-solid fa-user-pen"></i> Edit Profile & Goals
+              </button>
+              <button class="dropdown-link" id="openManageSubjectsBtn">
+                <i class="fa-solid fa-book-bookmark"></i> Manage Subjects & Marks
+              </button>
+              <a href="#progress-reports" class="dropdown-link" data-section="progress-reports">
+                <i class="fa-solid fa-chart-simple"></i> Academic Transcript
+              </a>
+              <a href="#gpa-calculator" class="dropdown-link" data-section="gpa-calculator">
+                <i class="fa-solid fa-calculator"></i> GPA / CGPA Calculator
+              </a>
+              <button class="dropdown-link" id="profileAiSettingsBtn">
+                <i class="fa-solid fa-sliders"></i> AI API Configuration
+              </button>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-link text-primary" id="openLoginModalBtn">
+                <i class="fa-solid fa-user-plus"></i> Switch / Register Account
+              </button>
+              <button class="dropdown-link text-danger" id="logoutBtn">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- VIEW CONTAINER (Swappable Sections) -->
+      <main class="content-container">
+
+        <!-- ==============================================
+             SECTION 1: DASHBOARD OVERVIEW
+             ============================================== -->
+        <section id="section-dashboard" class="app-section active">
+          
+          <!-- Hero Welcome Banner -->
+          <div class="welcome-hero-banner">
+            <div class="hero-text-content">
+              <div class="hero-badge"><i class="fa-solid fa-sparkles"></i> <span id="heroTermBadge">Academic Assistant</span></div>
+              <h1 class="hero-heading">Welcome back, <span class="gradient-text" id="heroStudentName">Student!</span> ðŸ‘‹</h1>
+              <p class="hero-subtext" id="heroWelcomeText">Add your enrolled subjects and upcoming study tasks to organize your academic semester.</p>
+              <div class="hero-quick-actions">
+                <button class="hero-action-btn primary" id="heroAddSubjectBtn">
+                  <i class="fa-solid fa-plus-circle"></i> Add Subject
+                </button>
+                <button class="hero-action-btn secondary" data-jump="study-planner">
+                  <i class="fa-solid fa-calendar-plus"></i> Plan Study Tasks
+                </button>
+                <button class="hero-action-btn glass" data-jump="ai-tutor">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i> Ask AI Tutor
+                </button>
+              </div>
+            </div>
+            <div class="hero-stats-badge">
+              <div class="streak-icon-box">
+                <i class="fa-solid fa-fire"></i>
+              </div>
+              <div class="streak-data">
+                <span class="streak-count" id="heroStreakCount">1 Day</span>
+                <span class="streak-sub">Study Streak ðŸ”¥</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 Core Metric KPI Cards -->
+          <div class="kpi-grid">
+            
+            <!-- Card 1: Total Subjects -->
+            <div class="kpi-card" id="cardTotalSubjects">
+              <div class="kpi-header">
+                <div class="kpi-icon-wrap blue">
+                  <i class="fa-solid fa-book-bookmark"></i>
+                </div>
+                <button class="btn-icon-sm" id="quickAddSubjectIconBtn" title="Add Subject">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+              <div class="kpi-body">
+                <span class="kpi-value" id="kpiSubjectCount">0</span>
+                <span class="kpi-label">Enrolled Subjects</span>
+              </div>
+              <div class="kpi-footer">
+                <div class="subject-mini-chips" id="dashboardSubjectChips">
+                  <span class="chip text-muted">No subjects added yet</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Upcoming Exams -->
+            <div class="kpi-card" id="cardUpcomingExams">
+              <div class="kpi-header">
+                <div class="kpi-icon-wrap amber">
+                  <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <span class="kpi-tag alert" id="kpiExamAlertTag">Exams Schedule</span>
+              </div>
+              <div class="kpi-body">
+                <span class="kpi-value" id="kpiExamsCount">0</span>
+                <span class="kpi-label">Upcoming Exams</span>
+              </div>
+              <div class="kpi-footer">
+                <p class="kpi-sub-detail" id="dashboardNextExamDetail">
+                  <i class="fa-solid fa-calendar-check text-amber"></i> No exams scheduled yet
+                </p>
+              </div>
+            </div>
+
+            <!-- Card 3: Study Hours -->
+            <div class="kpi-card" id="cardStudyHours">
+              <div class="kpi-header">
+                <div class="kpi-icon-wrap indigo">
+                  <i class="fa-solid fa-brain"></i>
+                </div>
+                <span class="kpi-tag primary" id="kpiStudyGoalTag">Goal: 20 hrs/wk</span>
+              </div>
+              <div class="kpi-body">
+                <span class="kpi-value" id="kpiStudyHours">0.0 <small>hrs</small></span>
+                <span class="kpi-label">Logged This Week</span>
+              </div>
+              <div class="kpi-footer">
+                <div class="kpi-progress-bar">
+                  <div class="kpi-progress-fill" id="kpiStudyHoursBar" style="width: 0%;"></div>
+                </div>
+                <div class="kpi-progress-labels">
+                  <span id="kpiStudyHoursAchieved">0% Achieved</span>
+                  <span id="kpiStudyHoursRemaining">0 hrs left</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 4: Completed Tasks -->
+            <div class="kpi-card" id="cardCompletedTasks">
+              <div class="kpi-header">
+                <div class="kpi-icon-wrap emerald">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <span class="kpi-tag success" id="kpiTaskPercentTag">0% Done</span>
+              </div>
+              <div class="kpi-body">
+                <span class="kpi-value" id="kpiTaskRatio">0 <small>/ 0</small></span>
+                <span class="kpi-label">Academic Tasks Done</span>
+              </div>
+              <div class="kpi-footer">
+                <div class="kpi-progress-bar">
+                  <div class="kpi-progress-fill success-gradient" id="kpiTaskBar" style="width: 0%;"></div>
+                </div>
+                <div class="kpi-progress-labels">
+                  <span id="kpiPendingText">0 Tasks Pending</span>
+                  <a href="#study-planner" class="kpi-link" data-section="study-planner">View Tasks &rarr;</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Dashboard Charts & Schedule Row -->
+          <div class="dashboard-analytics-row">
+            
+            <!-- Left: Weekly Study Hours Chart -->
+            <div class="dashboard-card chart-card">
+              <div class="card-header-flex">
+                <div class="header-titles">
+                  <h3>Weekly Study Hours Analysis</h3>
+                  <p class="card-subtitle">Actual focus sprints logged vs your study target</p>
+                </div>
+                <div class="card-header-actions">
+                  <span class="badge-soft-blue" id="weeklyAvgDisplay">Target-based</span>
+                </div>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="weeklyStudyChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Right: Today's High Priority Tasks -->
+            <div class="dashboard-card priority-tasks-card">
+              <div class="card-header-flex">
+                <div class="header-titles">
+                  <h3>Today's Study Agenda</h3>
+                  <p class="card-subtitle"><span id="todayDateSubtitle">Current Date</span> &bull; <span id="agendaTaskCount">0 Tasks</span></p>
+                </div>
+                <button class="btn-sm btn-outline-primary" id="dashQuickAddTaskBtn">
+                  <i class="fa-solid fa-plus"></i> Add
+                </button>
+              </div>
+
+              <div class="quick-task-list" id="dashboardTasksList">
+                <!-- Dynamically populated or empty state via app.js -->
+              </div>
+              <div class="card-footer-action">
+                <a href="#study-planner" class="view-all-link" data-section="study-planner">
+                  Open Full Study Planner & Kanban <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Row: Upcoming Deadlines & Quick AI Ask Bar -->
+          <div class="dashboard-bottom-grid">
+            
+            <!-- Upcoming Deadlines Table/Cards -->
+            <div class="dashboard-card deadlines-card">
+              <div class="card-header-flex">
+                <div class="header-titles">
+                  <h3>Upcoming Exams & Deadlines</h3>
+                  <p class="card-subtitle">Synchronized with Academic Calendar</p>
+                </div>
+                <button class="btn-sm btn-outline-primary" id="dashboardAddDeadlineBtn">
+                  <i class="fa-solid fa-plus"></i> Add Event
+                </button>
+              </div>
+              <div class="deadline-timeline" id="dashboardDeadlinesList">
+                <!-- Populated dynamically or empty state -->
+              </div>
+            </div>
+
+            <!-- Quick AI Assistant Teaser Card -->
+            <div class="dashboard-card ai-teaser-card">
+              <div class="ai-teaser-badge">
+                <i class="fa-solid fa-robot"></i> AI Academic Assistant
+              </div>
+              <h3>Need instant clarity on a tough topic?</h3>
+              <p>Type your question or concept below. StudyPilot will prepare step-by-step guidance tailored to your enrolled courses.</p>
+              
+              <div class="quick-ai-input-wrap">
+                <input type="text" id="dashboardQuickAiInput" placeholder="e.g., Explain dynamic programming memoization vs tabulation...">
+                <button class="btn-primary" id="dashboardQuickAiSubmitBtn">
+                  <span>Ask AI</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+
+              <div class="quick-ai-prompts" id="dashboardPromptChips">
+                <span class="prompt-chip" data-prompt="Explain Dijkstra's shortest path algorithm step-by-step">ðŸŒ² Shortest Path</span>
+                <span class="prompt-chip" data-prompt="Create a revision plan for upcoming calculus integrals">ðŸ“ Calculus Study Plan</span>
+                <span class="prompt-chip" data-prompt="Summarize fundamental physics conservation laws">âš¡ Physics Laws</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ==============================================
+             SECTION 2: AI TUTOR
+             ============================================== -->
+        <section id="section-ai-tutor" class="app-section">
+          
+          <div class="section-top-header">
+            <div>
+              <h1 class="page-title"><i class="fa-solid fa-wand-magic-sparkles text-primary"></i> AI Academic Tutor</h1>
+              <p class="page-subtitle">Personalized interactive concept explanations, code debugging, and step-by-step problem solving.</p>
+            </div>
+            <div class="section-actions">
+              <button class="btn-outline-primary" id="aiTutorConfigBtn">
+                <i class="fa-solid fa-key"></i> Configure API Connection
+              </button>
+              <button class="btn-secondary" id="clearChatBtn" title="Clear current session">
+                <i class="fa-solid fa-trash-can"></i> Clear Chat
+              </button>
+            </div>
+          </div>
+
+          <!-- API Integration Notice Banner -->
+          <div class="api-integration-callout" id="aiTutorIntegrationNotice">
+            <div class="callout-icon">
+              <i class="fa-solid fa-circle-nodes"></i>
+            </div>
+            <div class="callout-content">
+              <h4>Real AI Integration Ready (Google Gemini API / OpenAI / Backend)</h4>
+              <p>This frontend has an active API bridge waiting for your API key. No canned or fake bot answers are simulated. Configure your API key or custom endpoint in <code>AIService</code> to begin live reasoning.</p>
+            </div>
+            <div class="callout-cta">
+              <button class="btn-sm btn-primary" id="noticeConfigBtn">
+                <i class="fa-solid fa-sliders"></i> Connect API Key
+              </button>
+            </div>
+          </div>
+
+          <!-- AI Tutor Interface Box -->
+          <div class="tutor-container">
+            
+            <!-- Controls Bar: Subject, Mode, Depth -->
+            <div class="tutor-controls-bar">
+              <div class="control-field">
+                <label for="tutorSubjectSelect"><i class="fa-solid fa-book"></i> Subject:</label>
+                <select id="tutorSubjectSelect" class="form-select">
+                  <!-- Dynamically populated from user's subjects -->
+                  <option value="General Studies">General Academic Studies</option>
+                </select>
+              </div>
+
+              <div class="control-field">
+                <label for="tutorModeSelect"><i class="fa-solid fa-brain"></i> Teaching Style:</label>
+                <select id="tutorModeSelect" class="form-select">
+                  <option value="Step-by-Step Tutorial" selected>Step-by-Step Breakdown</option>
+                  <option value="Socratic Method">Socratic Method (Ask guiding questions)</option>
+                  <option value="Exam Practice">Exam Practice & Trick Questions</option>
+                  <option value="Simple Analogy">ELI5 (Explain like I'm 5 with analogies)</option>
+                </select>
+              </div>
+
+              <div class="control-field">
+                <span class="status-indicator-badge" id="tutorConnectionBadge">
+                  <span class="dot"></span> <span id="tutorConnectionText">API Key Required</span>
+                </span>
+              </div>
+            </div>
+
+            <!-- Chat Window -->
+            <div class="chat-viewport" id="tutorChatViewport">
+              
+              <!-- System Intro Message -->
+              <div class="chat-message assistant">
+                <div class="message-avatar">
+                  <i class="fa-solid fa-robot"></i>
+                </div>
+                <div class="message-bubble">
+                  <div class="bubble-header">
+                    <strong>StudyPilot AI Tutor</strong>
+                    <span class="bubble-time">System Ready</span>
+                  </div>
+                  <div class="bubble-content">
+                    <p>Hello! I am your dedicated Academic AI Tutor. Select your enrolled subject above and ask me anything:</p>
+                    <ul class="intro-bullet-list">
+                      <li><strong>Concept Clarifications:</strong> "Explain recursion vs iteration with memory stack diagrams."</li>
+                      <li><strong>Exam Preparation:</strong> "Quiz me on edge cases for my upcoming exam."</li>
+                      <li><strong>Code / Math Problem Solving:</strong> "Help me verify convergence of this infinite series."</li>
+                    </ul>
+                    <p class="text-muted-notice"><i class="fa-solid fa-circle-info"></i> To stream live AI completions directly, provide your Gemini/OpenAI API key in the AI Settings modal or connect your backend server.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Suggested Prompts Row -->
+            <div class="suggested-prompts-row" id="tutorPromptSuggestions">
+              <span class="suggestions-label"><i class="fa-regular fa-lightbulb"></i> Try asking:</span>
+              <button class="tutor-chip-btn" data-tutor-prompt="Explain Dijkstra's algorithm step-by-step with an example graph">Dijkstra's Algorithm</button>
+              <button class="tutor-chip-btn" data-tutor-prompt="How do I solve second-order non-homogeneous differential equations?">Differential Equations</button>
+              <button class="tutor-chip-btn" data-tutor-prompt="Explain Faraday's Law and Lenz's Law with practical intuition">Faraday's Law</button>
+              <button class="tutor-chip-btn" data-tutor-prompt="Give me 3 practice questions on binary search edge cases">Binary Search Quiz</button>
+            </div>
+
+            <!-- Chat Input Bar -->
+            <div class="chat-input-container">
+              <!-- Queued Attachment Preview Tray -->
+              <div class="attachment-preview-tray d-none" id="tutorAttachmentTray"></div>
+
+              <form id="tutorChatForm" class="chat-form">
+                <div class="chat-input-wrapper">
+                  <textarea id="tutorPromptInput" placeholder="Ask your tutor anything about your coursework..." rows="1"></textarea>
+                  <div class="input-actions-inside">
+                    <input type="file" id="tutorFileInput" accept=".jpg,.jpeg,.png,.webp,.pdf,image/jpeg,image/png,image/webp,application/pdf" multiple style="display:none;">
+                    <button type="button" class="btn-icon-inside" id="tutorAttachFileBtn" title="Upload Photos (JPG, PNG, WEBP) or PDF documents">
+                      <i class="fa-solid fa-paperclip"></i>
+                    </button>
+                    <button type="button" class="btn-icon-inside" id="attachCodeBtn" title="Insert Code Snippet block">
+                      <i class="fa-solid fa-code"></i>
+                    </button>
+                    <button type="submit" class="btn-send-chat" id="sendTutorMessageBtn">
+                      <span>Send</span>
+                      <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ==============================================
+             SECTION 3: STUDY PLANNER
+             ============================================== -->
+        <section id="section-study-planner" class="app-section">
+          
+          <div class="section-top-header">
+            <div>
+              <h1 class="page-title"><i class="fa-solid fa-list-check text-primary"></i> Study Planner & Focus Timer</h1>
+              <p class="page-subtitle">Organize your assignments, schedule daily study sprints, and boost retention with the Pomodoro technique.</p>
+            </div>
+            <div class="section-actions">
+              <button class="btn-primary" id="openAddTaskModalBtn">
+                <i class="fa-solid fa-plus"></i> Add New Task
+              </button>
+            </div>
+          </div>
+
+          <!-- Pomodoro Full Focus Suite -->
+          <div class="pomodoro-focus-card">
+            <div class="pomo-tabs">
+              <button class="pomo-tab-btn active" data-pomo-type="focus">Focus (25m)</button>
+              <button class="pomo-tab-btn" data-pomo-type="shortBreak">Short Break (5m)</button>
+              <button class="pomo-tab-btn" data-pomo-type="longBreak">Long Break (15m)</button>
+            </div>
+            <div class="pomo-timer-display-huge" id="mainPomoTimer">25:00</div>
+            <div class="pomo-session-status">
+              <span id="pomoTaskLabel">Current Focus: <strong id="pomoActiveTaskName">General Study Session</strong></span>
+              <span class="pomo-cycle-badge" id="pomoCycleBadge">Sprint Mode</span>
+            </div>
+            <div class="pomo-controls-huge">
+              <button class="btn-pomo-main primary" id="mainPomoStartBtn">
+                <i class="fa-solid fa-play"></i> Start Focus Session
+              </button>
+              <button class="btn-pomo-main secondary" id="mainPomoResetBtn">
+                <i class="fa-solid fa-rotate-right"></i> Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Task Management Workspace -->
+          <div class="tasks-workspace">
+            <div class="tasks-filter-bar">
+              <div class="filter-group">
+                <button class="task-filter-btn active" data-filter="all">All Tasks (<span id="countFilterAll">0</span>)</button>
+                <button class="task-filter-btn" data-filter="pending">Pending (<span id="countFilterPending">0</span>)</button>
+                <button class="task-filter-btn" data-filter="completed">Completed (<span id="countFilterCompleted">0</span>)</button>
+                <button class="task-filter-btn" data-filter="high">High Priority (<span id="countFilterHigh">0</span>)</button>
+              </div>
+              <div class="task-search-field">
+                <i class="fa-solid fa-filter"></i>
+                <input type="text" id="taskSearchInput" placeholder="Filter tasks by subject or title...">
+              </div>
+            </div>
+
+            <!-- Task Items Container -->
+            <div class="task-grid-container" id="tasksListContainer">
+              <!-- Dynamically populated via app.js -->
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ==============================================
+             SECTION 4: NOTES & PDF SUMMARIZER
+             ============================================== -->
+        <section id="section-summarizer" class="app-section">
+          
+          <div class="section-top-header">
+            <div>
+              <h1 class="page-title"><i class="fa-solid fa-file-lines text-primary"></i> Notes & PDF Summarizer</h1>
+              <p class="page-subtitle">Upload lecture slides, research papers, or paste raw notes for AI-powered synthesis, key concept extraction, and study outlines.</p>
+            </div>
+            <div class="section-actions">
+              <button class="btn-outline-primary" id="loadSampleNotesBtn">
+                <i class="fa-solid fa-file-invoice"></i> Load Demo Sample
+              </button>
+            </div>
+          </div>
+
+          <!-- Split Workspace: Input on Left, Output on Right -->
+          <div class="summarizer-grid">
+            
+            <!-- Left: Document Input Panel -->
+            <div class="dashboard-card summarizer-input-card">
+              <div class="card-header-flex">
+                <h3>Document Input</h3>
+                <span class="badge-soft-blue">PDF, DOCX, TXT</span>
+              </div>
+
+              <!-- Drag and Drop Zone -->
+              <div class="drop-zone" id="fileDropZone">
+                <input type="file" id="pdfFileInput" accept=".pdf,.txt,.docx,.md" class="file-input-hidden">
+                <div class="drop-zone-content">
+                  <div class="drop-icon">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                  </div>
+                  <h4>Drag and drop lecture PDF or slides</h4>
+                  <p>or <button type="button" class="btn-text-link" id="browseFileBtn">browse files</button> from your computer</p>
+                  <span class="file-size-limit">Supported: PDF, TXT, Markdown (Max 15MB)</span>
+                </div>
+              </div>
+
+              <div class="selected-file-indicator d-none" id="selectedFileBar">
+                <i class="fa-solid fa-file-pdf text-danger"></i>
+                <div class="file-details">
+                  <span class="filename" id="selectedFileName">document.pdf</span>
+                  <span class="filesize" id="selectedFileSize">0 MB</span>
+                </div>
+                <button type="button" class="btn-icon-sm" id="removeFileBtn" title="Remove file">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+
+              <div class="divider-text"><span>OR PASTE RAW TEXT</span></div>
+
+              <!-- Raw Text Textarea -->
+              <div class="form-group">
+                <textarea id="rawNotesInput" class="notes-textarea" placeholder="Paste your lecture notes, textbook excerpt, or study outline here..." rows="8"></textarea>
+                <div class="text-count-row">
+                  <span id="notesWordCount">0 words &bull; 0 characters</span>
+                  <button type="button" class="btn-text-link" id="clearNotesTextBtn">Clear</button>
+                </div>
+              </div>
+
+              <!-- Summarization Options -->
+              <div class="summarizer-options">
+                <div class="option-row">
+                  <label for="summaryFormatSelect"><strong>Summary Format:</strong></label>
+                  <select id="summaryFormatSelect" class="form-select-sm">
+                    <option value="bullet-points">High-Yield Bullet Points</option>
+                    <option value="executive-summary">Executive Summary & Big Picture</option>
+                    <option value="definitions">Key Concepts & Term Definitions</option>
+                    <option value="exam-prep">Exam Review Sheet & Formulae</option>
+                  </select>
+                </div>
+
+                <div class="option-row">
+                  <label for="summaryLengthSelect"><strong>Depth:</strong></label>
+                  <select id="summaryLengthSelect" class="form-select-sm">
+                    <option value="concise">Concise (1-minute read)</option>
+                    <option value="balanced" selected>Standard (3-minute read)</option>
+                    <option value="comprehensive">Comprehensive (Deep dive)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Action Button -->
+              <button class="btn-primary w-100 mt-3" id="executeSummarizeBtn">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Summary
+              </button>
+            </div>
+
+            <!-- Right: Summary Output Panel -->
+            <div class="dashboard-card summarizer-output-card">
+              <div class="card-header-flex">
+                <div class="header-titles">
+                  <h3>Synthesized Summary</h3>
+                  <p class="card-subtitle" id="summaryOutputMeta">Ready for synthesis</p>
+                </div>
+                <div class="card-header-actions" id="summaryActionsGroup">
+                  <button class="btn-icon-sm" id="copySummaryBtn" title="Copy to clipboard">
+                    <i class="fa-regular fa-copy"></i>
+                  </button>
+                  <button class="btn-icon-sm" id="downloadSummaryBtn" title="Download Markdown">
+                    <i class="fa-solid fa-download"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Output Body -->
+              <div class="summary-content-area" id="summaryContentArea">
+                <div class="empty-state-card">
+                  <div class="empty-icon-bubble">
+                    <i class="fa-solid fa-file-circle-question"></i>
+                  </div>
+                  <h4>No Summary Generated Yet</h4>
+                  <p>Paste notes on the left or upload a file, then click <strong>"Generate AI Summary"</strong>.</p>
+                </div>
+              </div>
+
+              <!-- API Integration Footnote -->
+              <div class="summary-footer-notice">
+                <i class="fa-solid fa-plug text-primary"></i>
+                <span>Connected via <code>AIService.summarizeDocument()</code>. Configure your API key in Settings to summarize any document live.</span>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ==============================================
+             SECTION 5: QUIZ GENERATOR
+             ============================================== -->
+        <section id="section-quiz-generator" class="app-section">
+          
+          <div class="section-top-header">
+            <div>
+              <h1 class="page-title"><i class="fa-solid fa-bolt-lightning text-primary"></i> AI Quiz & Active Recall</h1>
+              <p class="page-subtitle">Test your retention with active recall questions generated from any course or custom topic.</p>
+            </div>
+            <div class="section-actions">
+              <button class="btn-outline-primary" id="openQuizConfigModalBtn">
+                <i class="fa-solid fa-sliders"></i> Generate Custom Quiz
+              </button>
+            </div>
+          </div>
+
+          <div class="quiz-layout-grid">
+            
+            <!-- Left: Quiz Configuration & Stats -->
+            <div class="quiz-sidebar-col">
+              <div class="dashboard-card">
+                <h3>Quiz Creator</h3>
+                <p class="card-subtitle">Set parameters and generate targeted practice questions.</p>
+
+                <form id="quizGeneratorForm" class="quiz-builder-form">
+                  <div class="form-group">
+                    <label for="quizTopicInput"><strong>Topic or Concept:</strong></label>
+                    <input type="text" id="quizTopicInput" class="form-control" placeholder="e.g., Memory Hierarchy & Caching" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="quizSubjectSelect"><strong>Enrolled Subject:</strong></label>
+                    <select id="quizSubjectSelect" class="form-select">
+                      <!-- Populated dynamically -->
+                      <option value="General Studies">General Academic Studies</option>
+                    </select>
+                  </div>
+
+                  <div class="form-row-2">
+                    <div class="form-group">
+                      <label for="quizNumQuestions"><strong>Questions:</strong></label>
+                      <select id="quizNumQuestions" class="form-select">
+                        <option value="5" selected>5 Questions</option>
+                        <option value="10">10 Questions</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="quizDifficulty"><strong>Difficulty:</strong></label>
+                      <select id="quizDifficulty" class="form-select">
+                        <option value="Easy">Easy (Fundamentals)</option>
+                        <option value="Medium" selected>Medium (Standard)</option>
+                        <option value="Hard">Hard (Exam Level)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <button type="submit" class="btn-primary w-100" id="generateQuizSubmitBtn">
+                    <i class="fa-solid fa-bolt"></i> Generate Quiz via AI
+                  </button>
+                </form>
+
+                <div class="quiz-history-stats mt-4" id="quizHistoryStats">
+                  <h4><i class="fa-solid fa-clock-rotate-left"></i> Your Completed Quizzes</h4>
+                  <div id="quizHistoryList">
+                    <p class="text-muted" style="font-size: 0.8rem; padding: 0.5rem 0;">No completed quizzes yet. Take a quiz to record your mastery scores.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Interactive Quiz Player -->
+            <div class="quiz-main-player-col">
+              <div class="dashboard-card quiz-player-card" id="quizPlayerCard">
+                
+                <!-- Quiz Player Header -->
+                <div class="quiz-player-header">
+                  <div>
+                    <span class="quiz-category-tag" id="playerCategoryTag">Active Recall Quiz</span>
+                    <h2 class="quiz-title-display" id="playerTitle">Knowledge Check</h2>
+                  </div>
+                  <div class="quiz-score-live">
+                    <span class="score-tag">Score: <strong id="liveQuizScore">0</strong> / <span id="liveQuizTotal">0</span></span>
+                  </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="quiz-progress-track">
+                  <div class="quiz-progress-fill" id="quizProgressFill" style="width: 0%;"></div>
+                </div>
+                <div class="quiz-step-label">
+                  <span id="quizStepText">Ready to begin</span>
+                  <span id="quizTimerTag"><i class="fa-regular fa-clock"></i> Untimed Practice</span>
+                </div>
+
+                <!-- Active Question Box -->
+                <div class="question-container" id="questionContainer">
+                  <!-- Populated dynamically via app.js -->
+                </div>
+
+                <!-- Quiz Navigation Buttons -->
+                <div class="quiz-actions-bar">
+                  <button class="btn-secondary" id="quizPrevBtn" disabled>
+                    <i class="fa-solid fa-chevron-left"></i> Previous
+                  </button>
+                  <button class="btn-primary" id="quizNextBtn">
+                    Next Question <i class="fa-solid fa-chevron-right"></i>
+                  </button>
+                  <button class="btn-success d-none" id="quizFinishBtn">
+                    Finish & View Score <i class="fa-solid fa-flag-checkered"></i>
+                  </button>
+                </div>
+
+              </div>
+
+              <!-- Final Results Modal/Card (Hidden until quiz end) -->
+              <div class="dashboard-card quiz-results-card d-none" id="quizResultsCard">
+                <div class="results-celebration">
+                  <div class="trophy-badge">
+                    <i class="fa-solid fa-trophy"></i>
+                  </div>
+                  <h2>Quiz Completed!</h2>
+                  <p class="results-sub">Great job practicing active recall for your coursework.</p>
+                  
+                  <div class="results-score-circle">
+                    <span class="final-score-val" id="finalScorePercent">0%</span>
+                    <span class="final-score-sub" id="finalScoreFraction">0 of 0 Correct</span>
+                  </div>
+
+                  <p class="results-feedback-text" id="finalFeedbackText">
+                    Your score has been logged to your student session.
+                  </p>
+
+                  <div class="results-buttons">
+                    <button class="btn-primary" id="retakeQuizBtn">
+                      <i class="fa-solid fa-rotate-right"></i> Retake This Quiz
+                    </button>
+                    <button class="btn-outline-primary" id="newQuizBtn">
+                      <i class="fa-solid fa-plus"></i> Generate Another Topic
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ==============================================
+             SECTION: GPA & CGPA CALCULATOR (SIMPLIFIED & MINIMAL)
+             ============================================== -->
+        <section id="section-gpa-calculator" class="app-section">
+          
+          <div class="section-top-header">
+            <div>
+              <h1 class="page-title"><i class="fa-solid fa-calculator text-primary"></i> GPA & CGPA Calculator</h1>
+              <p class="page-subtitle">Clean, minimal SGPA and cumulative CGPA calculation across multiple institutions and regulations.</p>
+            </div>
+            <div class="section-actions">
+              <button class="btn-secondary" id="gpaResetAllBtn" title="Reset all inputs">
+                <i class="fa-solid fa-rotate-left"></i> Reset Form
+              </button>
+            </div>
+          </div>
+
+          <!-- Compact Institution & Regulation Selection -->
+          <div class="dashboard-card mb-4" style="padding: 1.25rem 1.5rem;">
+            <div class="gpa-config-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="gpaInstitutionSelect" style="font-size: 0.82rem; font-weight: 700; color: var(--slate-600); margin-bottom: 0.35rem; display: block;">Institution / Regulation:</label>
+                <select id="gpaInstitutionSelect" class="form-select">
+                  <option value="ugc_cbcs" selected>UGC CBCS (10-Point)</option>
+                  <option value="anna_univ_r2021">Anna University (R2021)</option>
+                  <option value="anna_univ_r2017">Anna University (R2017)</option>
+                  <option value="vtu_2022">VTU Belagavi (2021/2022 Scheme)</option>
+                  <option value="jntuh_r22">JNTU Hyderabad (R22/R18)</option>
+                  <option value="mumbai_univ_cbcs">University of Mumbai (CBCS)</option>
+                  <option value="us_4_scale">US Standard (4.0 Scale)</option>
+                  <option value="custom">â˜… Custom Institution / Regulation</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="gpaAcademicYear" style="font-size: 0.82rem; font-weight: 700; color: var(--slate-600); margin-bottom: 0.35rem; display: block;">Academic Year:</label>
+                <select id="gpaAcademicYear" class="form-select">
+                  <option value="2026-2027">2026 â€“ 2027</option>
+                  <option value="2025-2026" selected>2025 â€“ 2026</option>
+                  <option value="2024-2025">2024 â€“ 2025</option>
+                  <option value="2023-2024">2023 â€“ 2024</option>
+                  <option value="2022-2023">2022 â€“ 2023</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="gpaSemesterSelect" style="font-size: 0.82rem; font-weight: 700; color: var(--slate-600); margin-bottom: 0.35rem; display: block;">Calculation Term:</label>
+                <select id="gpaSemesterSelect" class="form-select">
+                  <option value="Semester 1">Semester 1</option>
+                  <option value="Semester 2">Semester 2</option>
+                  <option value="Semester 3">Semester 3</option>
+                  <option value="Semester 4" selected>Semester 4</option>
+                  <option value="Semester 5">Semester 5</option>
+                  <option value="Semester 6">Semester 6</option>
+                  <option value="Semester 7">Semester 7</option>
+                  <option value="Semester 8">Semester 8</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Custom Institution Fields (Displayed if 'custom' is selected) -->
+            <div class="gpa-custom-config-row d-none mt-3" id="gpaCustomConfigRow">
+              <div class="gpa-config-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; border-top: 1px dashed var(--slate-200); padding-top: 1rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="gpaCustomInstName" style="font-size: 0.8rem; font-weight: 600;">Custom Institution Name:</label>
+                  <input type="text" id="gpaCustomInstName" class="form-control" placeholder="e.g., Autonomous Institute">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="gpaCustomRegName" style="font-size: 0.8rem; font-weight: 600;">Regulation / Scheme:</label>
+                  <input type="text" id="gpaCustomRegName" class="form-control" placeholder="e.g., Autonomous 2025">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="gpaCustomMaxScale" style="font-size: 0.8rem; font-weight: 600;">Grading Scale Max:</label>
+                  <select id="gpaCustomMaxScale" class="form-select">
+                    <option value="10" selected>10-Point Scale</option>
+                    <option value="4">4-Point Scale</option>
+                    <option value="5">5-Point Scale</option>
+                    <option value="7">7-Point Scale</option>
+                    <option value="100">100-Point Scale</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mode Selector Tabs: SGPA vs CGPA -->
+          <div class="gpa-mode-tabs mb-4">
+            <button class="gpa-tab-btn active" id="gpaTabSgpaBtn" data-gpa-tab="sgpa">
+              <i class="fa-solid fa-list-ol"></i> SGPA Calculator (Semester)
+            </button>
+            <button class="gpa-tab-btn" id="gpaTabCgpaBtn" data-gpa-tab="cgpa">
+              <i class="fa-solid fa-chart-pie"></i> CGPA Calculator (Cumulative)
+            </button>
+          </div>
+
+          <!-- TAB 1: SGPA CALCULATOR -->
+          <div class="gpa-tab-pane active" id="gpaPaneSgpa">
+            <div class="dashboard-card mb-4">
+              <div class="card-header-flex">
+                <div class="header-titles">
+                  <h3><i class="fa-solid fa-book-open text-primary"></i> Semester Subjects</h3>
+                  <p class="card-subtitle">Enter subject name, credits, and grade point for each course.</p>
+                </div>
+                <div class="card-header-actions">
+                  <button class="btn-sm btn-outline-primary" id="gpaImportEnrolledBtn" title="Import enrolled subjects from your student profile">
+                    <i class="fa-solid fa-file-import"></i> Import Enrolled
+                  </button>
+                  <button class="btn-sm btn-secondary" id="gpaClearSubjectsBtn" title="Clear all subject rows">
+                    <i class="fa-solid fa-trash-can"></i> Clear Table
+                  </button>
+                </div>
+              </div>
+
+              <!-- Subjects Table -->
+              <div class="table-responsive mt-3">
+                <table class="modern-table gpa-table" id="gpaSubjectsTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 45px;">#</th>
+                      <th>Subject Name / Code</th>
+                      <th style="width: 140px;">Credits (C<sub>i</sub>)</th>
+                      <th style="width: 170px;">Letter Grade</th>
+                      <th style="width: 120px;">Grade Pt (G<sub>i</sub>)</th>
+                      <th style="width: 110px;">Credit Pts</th>
+                      <th style="width: 50px;"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="gpaSubjectsTableBody">
+                    <!-- Populated dynamically via JS -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="gpa-table-footer mt-3" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+                <button class="btn-outline-primary" id="gpaAddSubjectRowBtn">
+                  <i class="fa-solid fa-plus-circle"></i> Add Subject
+                </button>
+                <div style="display:flex; gap:0.5rem;">
+                  <button class="btn-primary" id="gpaCalculateSgpaBtn">
+                    <i class="fa-solid fa-calculator"></i> Calculate SGPA
+                  </button>
+                  <button class="btn-secondary" id="gpaClearSgpaBtn" title="Clear calculated result">
+                    <i class="fa-solid fa-eraser"></i> Clear Result
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clean Minimal SGPA Result Box -->
+            <div class="minimal-gpa-result mb-4" id="gpaSgpaResultBox">
+              <div class="result-highlight">
+                <span class="result-label">Semester SGPA Result</span>
+                <div class="result-number-row">
+                  <span class="result-number" id="gpaLiveSgpa">0.00</span>
+                  <span class="result-scale" id="gpaLiveMaxScale">/ 10.00</span>
+                </div>
+              </div>
+              <div class="result-stats">
+                <div>
+                  <span class="result-label">Total Credits</span>
+                  <div><strong id="gpaTotalCreditsVal">0.0</strong></div>
+                </div>
+                <div>
+                  <span class="result-label">Quality Points</span>
+                  <div><strong id="gpaTotalPointsVal">0.0</strong></div>
+                </div>
+                <div>
+                  <span class="result-label">Percentage</span>
+                  <div><strong class="text-primary" id="gpaPercentageVal">-- %</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: CGPA CALCULATOR -->
+          <div class="gpa-tab-pane d-none" id="gpaPaneCgpa">
+            <div class="dashboard-card mb-4">
+              <div class="card-header-flex">
+                <div class="header-titles">
+                  <h3><i class="fa-solid fa-layer-group text-primary"></i> Semester GPA & Credits</h3>
+                  <p class="card-subtitle">Enter your semester GPA and credits earned per semester.</p>
+                </div>
+                <div class="card-header-actions">
+                  <button class="btn-sm btn-secondary" id="cgpaClearRowsBtn" title="Clear all semester rows">
+                    <i class="fa-solid fa-trash-can"></i> Clear Table
+                  </button>
+                </div>
+              </div>
+
+              <!-- Semesters Table -->
+              <div class="table-responsive mt-3">
+                <table class="modern-table gpa-table" id="cgpaSemestersTable">
+                  <thead>
+                    <tr>
+                      <th style="width: 50px;">#</th>
+                      <th>Semester Name</th>
+                      <th style="width: 160px;">Semester SGPA</th>
+                      <th style="width: 160px;">Semester Credits (S<sub>j</sub>)</th>
+                      <th style="width: 140px;">Quality Pts</th>
+                      <th style="width: 50px;"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="cgpaSemestersTableBody">
+                    <!-- Populated dynamically via JS -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="gpa-table-footer mt-3" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+                <button class="btn-outline-primary" id="cgpaAddSemesterRowBtn">
+                  <i class="fa-solid fa-plus-circle"></i> Add Semester
+                </button>
+                <div style="display:flex; gap:0.5rem;">
+                  <button class="btn-primary" id="cgpaCalculateCgpaBtn">
+                    <i class="fa-solid fa-calculator"></i> Calculate CGPA
+                  </button>
+                  <button class="btn-secondary" id="cgpaClearCgpaBtn" title="Clear calculated result">
+                    <i class="fa-solid fa-eraser"></i> Clear Result
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Clean Minimal CGPA Result Box -->
+            <div class="minimal-gpa-result mb-4" id="cgpaResultBox">
+              <div class="result-highlight">
+                <span class="result-label">Cumulative CGPA Result</span>
+                <div class="result-number-row">
+                  <span class="result-number text-indigo" id="cgpaLiveValue">0.00</span>
+                  <span class="result-scale" id="cgpaLiveMaxScale">/ 10.00</span>
+                </div>
+              </div>
+              <div class="result-stats">
+                <div>
+                  <span class="result-label">Cumulative Credits</span>
+                  <div><strong id="cgpaTotalCreditsVal">0.0</strong></div>
+                </div>
+                <div>
+                  <span class="result-label">Total Points</span>
+                  <div><strong id="cgpaTotalPointsVal">0.0</strong></div>
+                </div>
+                <div>
+                  <span class="result-label">Percentage</span>
+                  <div><strong class="text-primary" id="cgpaPercentageVal">-- %</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ==============================================
+             SECTION: SUBJECT-WISE STUDY TIME TRACKER
+             ============================================== -->
+        <section id="section-study-tracker" class="app-section">
+          
+          <div class="section-top-header">
+            <div>
+              <h1 class="page-title"><i class="fa-solid fa-stopwatch text-primary"></i> Subject-wise Study Time Tracker</h1>
+              <p class="page-subtitle">Track, record, and analyze your actual study sessions per subject in real-time.</p>
+            </div>
+            <div class="section-actions">
+              <span class="badge-soft-emerald" id="trackerLiveBadge" style="display:none;">
+                <span class="status-dot-live"></span> <span id="trackerLiveSubjectName">Timer Active</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Hero Stopwatch Card -->
+          <div class="tracker-hero-card">
+            <div class="tracker-subject-selector">
+              <label for="trackerSubjectSelect"><i class="fa-solid fa-book"></i> SELECT SUBJECT:</label>
+              <select id="trackerSubjectSelect" class="tracker-subject-picker">
+                <!-- Dynamically loaded from student's enrolled subjects -->
+              </select>
+            </div>
+
+            <div class="tracker-time-display" id="trackerTimerDisplay">00:00:00</div>
+
+            <div class="tracker-session-status" id="trackerStatusNotice">
+              <span>Ready to start study session</span>
+            </div>
+
+            <div class="tracker-controls">
+              <button class="btn-tracker start" id="trackerStartBtn">
+                <i class="fa-solid fa-play"></i> Start Timer
+              </button>
+              <button class="btn-tracker stop" id="trackerStopBtn" disabled>
+                <i class="fa-solid fa-stop"></i> Stop & Record
+              </button>
+            </div>
+          </div>
+
+          <!-- Study Analytics Metrics -->
+          <div class="tracker-analytics-grid">
+            <div class="tracker-stat-card">
+              <div class="stat-value text-primary" id="trackerStatToday">0h 0m</div>
+              <div class="stat-label">Today's Study Time</div>
+              <div class="stat-sub">Across all subjects</div>
+            </div>
+            <div class="tracker-stat-card">
+              <div class="stat-value text-indigo" id="trackerStatWeek">0h 0m</div>
+              <div class="stat-label">This Week's Total</div>
+              <div class="stat-sub">Last 7 days logged</div>
+            </div>
+            <div class="tracker-stat-card">
+              <div class="stat-value text-emerald" id="trackerStatTotal">0h 0m</div>
+              <div class="stat-label">Overall Study Time</div>
+              <div class="stat-sub">Cumulative logged</div>
+            </div>
+            <div class="tracker-stat-card">
+              <div class="stat-value text-amber" id="trackerStatTopSubject">--</div>
+              <div class="stat-label">Most Studied Subject</div>
+              <div class="stat-sub" id="trackerStatTopSubjectTime">0 hrs logged</div>
+            </div>
+          </div>
+
+          <!-- Subject-wise Breakdown -->
+          <div class="dashboard-card mb-4">
+            <div class="card-header-flex">
+              <div class="header-titles">
+                <h3><i class="fa-solid fa-chart-column text-primary"></i> Subject-wise Time Breakdown</h3>
+                <p class="card-subtitle">Today and weekly study hours logged for each enrolled subject.</p>
+              </div>
+            </div>
+            <div class="subject-breakdown-grid mt-3" id="trackerSubjectBreakdown">
+              <!-- Dynamically rendered per subject -->
+            </div>
+          </div>
+
+          <!-- Previous Study Sessions History -->
+          <div class="dashboard-card">
+            <div class="card-header-flex">
+              <div class="header-titles">
+                <h3><i class="fa-solid fa-clock-rotate-left text-primary"></i> Previous Study Sessions</h3>
+                <p class="card-subtitle">Log of recent study sessions with dates, timestamps, and duration.</p>
+              </div>
+              <div class="card-header-actions">
+                <button class="btn-sm btn-secondary" id="trackerClearSessionsBtn" title="Clear session history">
+                  <i class="fa-solid fa-trash-can"></i> Clear History
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive mt-3">
+              <table class="session-history-table" id="trackerSessionsTable">
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Duration</th>
+                    <th style="width: 50px;"></th>
+                  </tr>
+                </thead>
+                <tbody id="trackerSessionsTableBody">
+                  <!-- Dynamically rendered session history -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ==============================================
+             SECTION 6: WELLNESS TRACKER
+             ============================================== -->
+        <section id="section-wellness-tracker" class="app-section">
+          
+          <div class="section-top-header">
+            <div>
+              <h1 class="page-title"><i class="fa-solid fa-heart-pulse text-danger"></i> Student Wellness & Balance</h1>
+              <p class="page-subtitle">Academic performance relies on physical and mental well-being. Track sleep, daily mood, breathing, and study recovery.</p>
+            </div>
+            <div class="section-actions">
+              <span class="badge-soft-emerald" id="burnoutRiskBadge"><i class="fa-solid fa-shield-heart"></i> Daily Check-in</span>
+            </div>
+          </div>
+
+          <!-- Wellness Grid -->
+          <div class="wellness-grid">
+            
+            <!-- 1. Mood Check-in -->
+            <div class="dashboard-card mood-card">
+              <div class="card-header-flex">
+                <h3>Daily Mood Check-in</h3>
+                <span class="badge-pill-today">Today</span>
+              </div>
+              <p class="card-subtitle">How are you feeling about your academic workload today?</p>
+              
+              <div class="mood-selector-row">
+                <button class="mood-btn" data-mood="Great" title="Great / Energized">
+                  <span class="mood-emoji">ðŸ¤©</span>
+                  <span class="mood-text">Energized</span>
+                </button>
+                <button class="mood-btn" data-mood="Good" title="Good / Focused">
+                  <span class="mood-emoji">ðŸ˜Š</span>
+                  <span class="mood-text">Focused</span>
+                </button>
+                <button class="mood-btn" data-mood="Neutral" title="Neutral / Okay">
+                  <span class="mood-emoji">ðŸ˜</span>
+                  <span class="mood-text">Neutral</span>
+                </button>
+                <button class="mood-btn" data-mood="Stressed" title="Stressed / Overwhelmed">
+                  <span class="mood-emoji">ðŸ˜°</span>
+                  <span class="mood-text">Stressed</span>
+                </button>
+                <button class="mood-btn" data-mood="Exhausted" title="Exhausted / Tired">
+                  <span class="mood-emoji">ðŸ˜´</span>
+                  <span class="mood-text">Tired</span>
+                </button>
+              </div>
+
+              <div class="mood-feedback-box" id="moodFeedbackBox">
+                <i class="fa-solid fa-quote-left text-primary"></i>
+                <span id="moodFeedbackQuote">"Log your mood to track your study mindset over the academic term."</span>
+              </div>
+            </div>
+
+            <!-- 2. Daily Sleep & Recovery Tracker -->
+            <div class="dashboard-card sleep-card" id="sleepTrackerCard">
+              <div class="card-header-flex">
+                <div>
+                  <h3 style="display:flex; align-items:center; gap:0.5rem;">
+                    <i class="fa-solid fa-moon text-indigo"></i> Daily Sleep Log
+                  </h3>
+                  <p class="card-subtitle">Track nightly rest to optimize cognitive focus and study stamina.</p>
+                </div>
+                <span class="badge-soft-emerald" id="sleepOverviewBadge">14-Day Tracking</span>
+              </div>
+
+              <!-- Daily Prompt Banner: Ask logged-in student every day -->
+              <div class="sleep-prompt-banner" id="sleepPromptBanner">
+                <div class="sleep-prompt-header">
+                  <div class="sleep-prompt-icon"><i class="fa-solid fa-bed"></i></div>
+                  <div class="sleep-prompt-title-wrap">
+                    <h4 class="sleep-prompt-question">How many hours and minutes did you sleep yesterday?</h4>
+                    <p class="sleep-prompt-sub" id="sleepYesterdayDateLabel">Yesterday's Date</p>
+                  </div>
+                </div>
+
+                <!-- Form to Log Yesterday's Sleep -->
+                <div id="sleepYesterdayForm" class="sleep-form-wrap">
+                  <div class="sleep-inputs-row">
+                    <div class="sleep-input-group">
+                      <label for="sleepYesterdayHours"><i class="fa-solid fa-hourglass-half"></i> Hours</label>
+                      <input type="number" id="sleepYesterdayHours" class="form-control" min="0" max="24" step="1" placeholder="7" value="7">
+                    </div>
+                    <div class="sleep-input-group">
+                      <label for="sleepYesterdayMinutes"><i class="fa-regular fa-clock"></i> Minutes</label>
+                      <input type="number" id="sleepYesterdayMinutes" class="form-control" min="0" max="59" step="5" placeholder="30" value="0">
+                    </div>
+                    <div class="sleep-action-group">
+                      <button type="button" class="btn-primary" id="saveYesterdaySleepBtn">
+                        <i class="fa-solid fa-floppy-disk"></i> Save Sleep
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Logged Notice when yesterday's sleep is already recorded -->
+                <div id="sleepYesterdayLoggedBox" class="sleep-logged-notice d-none">
+                  <div class="logged-left">
+                    <i class="fa-solid fa-circle-check text-success"></i>
+                    <span>Yesterday's rest logged: <strong id="yesterdayLoggedVal">7h 0m</strong></span>
+                  </div>
+                  <button type="button" class="btn-sm btn-outline-primary" id="editYesterdaySleepBtn">
+                    <i class="fa-solid fa-pen"></i> Edit Entry
+                  </button>
+                </div>
+              </div>
+
+              <!-- Stats Summary Grid -->
+              <div class="sleep-stats-summary-grid">
+                <div class="sleep-stat-box">
+                  <span class="stat-num" id="sleepAvgDuration">--</span>
+                  <span class="stat-lbl">14-Day Average</span>
+                </div>
+                <div class="sleep-stat-box">
+                  <span class="stat-num" id="sleepDaysRecordedCount">0 / 14</span>
+                  <span class="stat-lbl">Days Recorded</span>
+                </div>
+                <div class="sleep-stat-box">
+                  <span class="stat-num" id="sleepLatestQuality">--</span>
+                  <span class="stat-lbl">Sleep Quality</span>
+                </div>
+              </div>
+
+              <!-- Add or Edit Missed Date Entry -->
+              <div class="sleep-custom-date-box">
+                <div class="custom-header-toggle" id="toggleCustomDateBtn">
+                  <span><i class="fa-solid fa-calendar-plus text-primary"></i> <strong>Log or Edit Past Date</strong></span>
+                  <i class="fa-solid fa-chevron-down" id="customDateChevron"></i>
+                </div>
+                <div id="customDateForm" class="custom-date-form-body d-none">
+                  <div class="custom-inputs-flex">
+                    <div class="form-group">
+                      <label for="sleepCustomDate">Date:</label>
+                      <input type="date" id="sleepCustomDate" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="sleepCustomHours">Hours:</label>
+                      <input type="number" id="sleepCustomHours" class="form-control" min="0" max="24" value="7">
+                    </div>
+                    <div class="form-group">
+                      <label for="sleepCustomMinutes">Minutes:</label>
+                      <input type="number" id="sleepCustomMinutes" class="form-control" min="0" max="59" value="0">
+                    </div>
+                    <div class="form-group-btn">
+                      <button type="button" class="btn-primary" id="saveCustomDateSleepBtn">
+                        <i class="fa-solid fa-check"></i> Save Record
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 14-Day History Log -->
+              <div class="sleep-history-wrap">
+                <div class="card-header-flex" style="margin-bottom:0.75rem;">
+                  <h4 style="font-size:0.95rem; font-weight:700;"><i class="fa-solid fa-clock-rotate-left"></i> Previous 14 Days History</h4>
+                  <small class="text-muted">Recorded sleep logs</small>
+                </div>
+                <div class="sleep-history-list" id="sleepHistoryList">
+                  <!-- Generated dynamically via app.js -->
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Interactive 4-7-8 Breathing Tool -->
+            <div class="dashboard-card breath-card">
+              <div class="card-header-flex">
+                <h3>Anti-Stress Breathing (4-7-8)</h3>
+                <span class="badge-soft-primary">Mindfulness</span>
+              </div>
+              <p class="card-subtitle">Use between intense study sessions to calm your nervous system.</p>
+
+              <div class="breathing-circle-wrap">
+                <div class="breath-bubble" id="breathBubble">
+                  <span class="breath-state" id="breathStateText">Inhale</span>
+                  <span class="breath-counter" id="breathCounterText">4</span>
+                </div>
+              </div>
+
+              <div class="breath-controls">
+                <button class="btn-primary btn-sm" id="breathToggleBtn">
+                  <i class="fa-solid fa-play"></i> Start Exercise
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ==============================================
+             SECTION 7: ACADEMIC CALENDAR
+             ============================================== -->
+        <section id="section-calendar" class="app-section">
+          
+          <div class="section-top-header">
+            <div>
+              <h1 class="page-title"><i class="fa-solid fa-calendar-days text-primary"></i> Academic Calendar & Deadlines</h1>
+              <p class="page-subtitle">Track course milestones, exams, assignment due dates, and study sessions in one unified view.</p>
+            </div>
+            <div class="section-actions">
+              <button class="btn-primary" id="openAddEventModalBtn">
+                <i class="fa-solid fa-calendar-plus"></i> Add Event
+              </button>
+            </div>
+          </div>
+
+          <div class="calendar-workspace-grid">
+            
+            <!-- Left: Calendar Controls & Monthly Grid -->
+            <div class="calendar-main-card dashboard-card">
+              <div class="calendar-nav-bar">
+                <div class="calendar-nav-controls">
+                  <button class="btn-icon" id="prevMonthBtn" aria-label="Previous Month">
+                    <i class="fa-solid fa-chevron-left"></i>
+                  </button>
+                  <h2 class="current-month-heading" id="calendarCurrentMonthYear">October 2026</h2>
+                  <button class="btn-icon" id="nextMonthBtn" aria-label="Next Month">
+                    <i class="fa-solid fa-chevron-right"></i>
+                  </button>
+                </div>
+
+                <div class="calendar-filter-pills">
+                  <button class="cal-filter-pill active" data-cal-filter="all">All</button>
+                  <button class="cal-filter-pill exam" data-cal-filter="exam">Exams</button>
+                  <button class="cal-filter-pill assignment" data-cal-filter="assignment">Deadlines</button>
+                  <button class="cal-filter-pill study" data-cal-filter="study">Study Sprints</button>
+                </div>
+              </div>
+
+              <!-- Day of week headers -->
+              <div class="calendar-weekdays-row">
+                <span>Sun</span>
+                <span>Mon</span>
+                <span>Tue</span>
+                <span>Wed</span>
+                <span>Thu</span>
+                <span>Fri</span>
+                <span>Sat</span>
+              </div>
+
+              <!-- Calendar Days Grid -->
+              <div class="calendar-days-grid" id="calendarDaysGrid">
+                <!-- Dynamically populated via app.js -->
+              </div>
+            </div>
+
+            <!-- Right: Selected Day's Schedule Sidebar -->
+            <div class="calendar-sidebar-card dashboard-card">
+              <div class="card-header-flex">
+                <div class="header-titles">
+                  <h3 id="selectedDateHeader">Selected Date</h3>
+                  <p class="card-subtitle" id="selectedDateSub">Daily Schedule</p>
+                </div>
+                <span class="badge-soft-primary" id="selectedDateCount">0 Events</span>
+              </div>
+
+              <div class="day-events-list" id="selectedDayEventsList">
+                <!-- Populated dynamically or empty state -->
+              </div>
+
+              <!-- Quick Add Event Form Directly in Sidebar -->
+              <div class="calendar-quick-add mt-4">
+                <h4><i class="fa-solid fa-plus-circle text-primary"></i> Quick Schedule Event</h4>
+                <form id="quickAddEventForm" class="quick-event-form">
+                  <input type="text" id="quickEventTitle" class="form-control-sm" placeholder="Event title (e.g. Lab Quiz, Problem Set)" required>
+                  <div class="form-row-2 mt-2">
+                    <select id="quickEventType" class="form-select-sm">
+                      <option value="exam">Exam</option>
+                      <option value="assignment" selected>Assignment</option>
+                      <option value="study">Study Block</option>
+                    </select>
+                    <input type="date" id="quickEventDate" class="form-control-sm" required>
+                  </div>
+                  <button type="submit" class="btn-sm btn-primary w-100 mt-2">Add to Calendar</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- ==============================================
+             SECTION 8: PROGRESS REPORTS & ANALYTICS
+             ============================================== -->
+        <section id="section-progress-reports" class="app-section">
+          
+          <div class="section-top-header">
+            <div>
+              <h1 class="page-title"><i class="fa-solid fa-chart-line text-primary"></i> Academic Progress & Analytics</h1>
+              <p class="page-subtitle">In-depth performance evaluation across courses, GPA projections, and active study habits.</p>
+            </div>
+            <div class="section-actions">
+              <button class="btn-primary" id="reportAddSubjectBtn">
+                <i class="fa-solid fa-plus"></i> Add Enrolled Subject
+              </button>
+              <button class="btn-outline-primary" id="printReportBtn">
+                <i class="fa-solid fa-print"></i> Export Report
+              </button>
+            </div>
+          </div>
+
+          <!-- Academic Scorecard -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <div class="kpi-icon-wrap emerald"><i class="fa-solid fa-award"></i></div>
+                <span class="kpi-tag success" id="reportGpaStatus">Status: Active</span>
+              </div>
+              <div class="kpi-body">
+                <span class="kpi-value" id="reportGpaValue">--</span>
+                <span class="kpi-label">Cumulative GPA (4.0 Scale)</span>
+              </div>
+              <div class="kpi-footer">
+                <span class="kpi-sub-detail text-emerald" id="reportGpaDetail"><i class="fa-solid fa-calculator"></i> Calculated from enrolled subjects</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <div class="kpi-icon-wrap blue"><i class="fa-solid fa-graduation-cap"></i></div>
+                <span class="kpi-tag primary" id="reportCreditTag">Enrolled Load</span>
+              </div>
+              <div class="kpi-body">
+                <span class="kpi-value" id="reportTotalCredits">0 <small>Credits</small></span>
+                <span class="kpi-label">Total Credit Hours</span>
+              </div>
+              <div class="kpi-footer">
+                <span class="kpi-sub-detail" id="reportEnrolledLoad">0 Courses Enrolled</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <div class="kpi-icon-wrap indigo"><i class="fa-solid fa-chart-pie"></i></div>
+                <span class="kpi-tag primary">Course Average</span>
+              </div>
+              <div class="kpi-body">
+                <span class="kpi-value" id="reportAvgScore">--</span>
+                <span class="kpi-label">Average Mark Percentage</span>
+              </div>
+              <div class="kpi-footer">
+                <span class="kpi-sub-detail text-primary" id="reportScoreSub">Across recorded evaluations</span>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-header">
+                <div class="kpi-icon-wrap amber"><i class="fa-solid fa-bullseye"></i></div>
+                <span class="kpi-tag primary">Academic Target</span>
+              </div>
+              <div class="kpi-body">
+                <span class="kpi-value" id="reportTargetGpa">--</span>
+                <span class="kpi-label">Target Term GPA</span>
+              </div>
+              <div class="kpi-footer">
+                <span class="kpi-sub-detail" id="reportTargetStatus">Configured in Student Profile</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts Row: Subject Mastery Radar + Weekly Trend Line -->
+          <div class="dashboard-analytics-row">
+            
+            <!-- Course Mastery Radar -->
+            <div class="dashboard-card chart-card">
+              <div class="card-header-flex">
+                <div class="header-titles">
+                  <h3>Subject Mastery & Competency</h3>
+                  <p class="card-subtitle">Calculated dynamically based on your recorded marks</p>
+                </div>
+              </div>
+              <div class="chart-canvas-wrapper radar-chart-wrap" id="radarChartContainer">
+                <canvas id="subjectMasteryChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Grade Trends Across Weeks -->
+            <div class="dashboard-card chart-card">
+              <div class="card-header-flex">
+                <div class="header-titles">
+                  <h3>Study Hours Consistency</h3>
+                  <p class="card-subtitle">Weekly logged study session trends</p>
+                </div>
+              </div>
+              <div class="chart-canvas-wrapper" id="gradeTrendsContainer">
+                <canvas id="gradeTrendsChart"></canvas>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Detailed Course Performance Table -->
+          <div class="dashboard-card mt-4">
+            <div class="card-header-flex">
+              <div class="header-titles">
+                <h3>Enrolled Courses Performance Breakdown</h3>
+                <p class="card-subtitle">Manage, edit, or track grades for your subjects</p>
+              </div>
+              <button class="btn-sm btn-outline-primary" id="manageSubjectsTableBtn">
+                <i class="fa-solid fa-sliders"></i> Manage Subjects
+              </button>
+            </div>
+
+            <div class="table-responsive">
+              <table class="modern-table">
+                <thead>
+                  <tr>
+                    <th>Course Code</th>
+                    <th>Course Title</th>
+                    <th>Credits</th>
+                    <th>Instructor</th>
+                    <th>Current Mark</th>
+                    <th>Letter Grade</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="courseReportTableBody">
+                  <!-- Populated dynamically via app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+  <!-- Exam & Learning Section -->
+  <section id="section-exam-learning" class="app-section">
+
+    <div class="section-top-header">
+      <div>
+        <h1 class="page-title"><i class="fa-solid fa-clipboard-list text-primary"></i> Exam &amp; Personalized Learning</h1>
+        <p class="page-subtitle">Manage your exam patterns, track subject-wise marks, monitor performance, and get AI-powered study support.</p>
+      </div>
+      <div class="section-actions">
+        <button class="btn-primary" id="elSeedDefaultPatternBtn">
+          <i class="fa-solid fa-wand-sparkles"></i> Setup Default Pattern
+        </button>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="el-tab-nav">
+      <button class="el-tab-btn active" data-el-tab="patterns"><i class="fa-solid fa-layer-group"></i> Exam Patterns</button>
+      <button class="el-tab-btn" data-el-tab="marks"><i class="fa-solid fa-pen-to-square"></i> Enter Marks</button>
+      <button class="el-tab-btn" data-el-tab="performance"><i class="fa-solid fa-chart-bar"></i> Performance</button>
+      <button class="el-tab-btn" data-el-tab="syllabus"><i class="fa-solid fa-book-open"></i> Syllabus</button>
+      <button class="el-tab-btn" data-el-tab="ai-learning"><i class="fa-solid fa-wand-magic-sparkles ai-glow"></i> AI Learning</button>
+    </div>
+
+    <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ TAB 1: EXAM PATTERNS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <div id="elTab-patterns" class="el-tab-content active">
+      <div class="el-card">
+        <div class="el-card-header">
+          <h2><i class="fa-solid fa-layer-group"></i> Your Exam Patterns</h2>
+          <button class="btn-primary btn-sm" id="elCreatePatternBtn"><i class="fa-solid fa-plus"></i> New Pattern</button>
+        </div>
+
+        <div class="el-info-banner">
+          <i class="fa-solid fa-circle-info"></i>
+          Create separate patterns for different assessment styles (e.g., Theory, Lab). Each pattern can have its own assessment components and maximum marks.
+        </div>
+
+        <!-- Create / Edit Pattern Form -->
+        <div id="elPatternFormWrap" class="el-inline-form" style="display:none;">
+          <div class="el-form-row">
+            <div class="el-form-group">
+              <label>Pattern Name <span class="required">*</span></label>
+              <input type="text" id="elPatternName" class="form-control" placeholder="e.g. Theory Pattern, Lab Pattern" maxlength="100">
+            </div>
+            <div class="el-form-group el-form-group-sm">
+              <label>&nbsp;</label>
+              <label class="el-checkbox-label">
+                <input type="checkbox" id="elPatternIsDefault"> Set as Default
+              </label>
+            </div>
+          </div>
+
+          <div class="el-components-builder">
+            <div class="el-components-header">
+              <span><i class="fa-solid fa-list-ol"></i> Assessment Components</span>
+              <button type="button" class="btn-outline-primary btn-sm" id="elAddComponentBtn"><i class="fa-solid fa-plus"></i> Add Component</button>
+            </div>
+            <div id="elComponentsList" class="el-components-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <div class="el-form-actions">
+            <button class="btn-secondary btn-sm" id="elCancelPatternBtn">Cancel</button>
+            <button class="btn-primary btn-sm" id="elSavePatternBtn"><i class="fa-solid fa-floppy-disk"></i> Save Pattern</button>
+          </div>
+          <input type="hidden" id="elEditPatternId" value="">
+        </div>
+
+        <!-- Patterns List -->
+        <div id="elPatternsList" class="el-patterns-grid">
+          <div class="el-empty-state">
+            <i class="fa-solid fa-layer-group"></i>
+            <p>No exam patterns yet. Click <strong>Setup Default Pattern</strong> to get started with common assessments (FA1, FA2, CLA, etc.), or create a custom pattern.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ TAB 2: ENTER MARKS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <div id="elTab-marks" class="el-tab-content">
+      <div class="el-card">
+        <div class="el-card-header">
+          <h2><i class="fa-solid fa-pen-to-square"></i> Enter Marks</h2>
+          <button class="btn-primary btn-sm" id="elAddMarkBtn"><i class="fa-solid fa-plus"></i> Add Mark Entry</button>
+        </div>
+
+        <div class="el-marks-filters">
+          <div class="el-form-group">
+            <label>Subject</label>
+            <select id="elMarksSubjectFilter" class="form-control">
+              <option value="">â€” Select Subject â€”</option>
+            </select>
+          </div>
+          <div class="el-form-group">
+            <label>Pattern</label>
+            <select id="elMarksPatternFilter" class="form-control">
+              <option value="">â€” Select Pattern â€”</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Inline Mark Entry Form -->
+        <div id="elMarkFormWrap" class="el-inline-form" style="display:none;">
+          <div class="el-form-row">
+            <div class="el-form-group">
+              <label>Subject <span class="required">*</span></label>
+              <select id="elMarkSubject" class="form-control"></select>
+            </div>
+            <div class="el-form-group">
+              <label>Exam Pattern <span class="required">*</span></label>
+              <select id="elMarkPattern" class="form-control">
+                <option value="">â€” Select Pattern â€”</option>
+              </select>
+            </div>
+            <div class="el-form-group">
+              <label>Assessment Component <span class="required">*</span></label>
+              <select id="elMarkComponent" class="form-control">
+                <option value="">â€” Select Pattern First â€”</option>
+              </select>
+            </div>
+          </div>
+          <div class="el-form-row">
+            <div class="el-form-group">
+              <label>Obtained Marks <span class="required">*</span></label>
+              <input type="number" id="elMarkObtained" class="form-control" min="0" step="0.5" placeholder="e.g. 18">
+            </div>
+            <div class="el-form-group">
+              <label>Maximum Marks <span class="required">*</span></label>
+              <input type="number" id="elMarkMax" class="form-control" min="0" step="0.5" placeholder="e.g. 20">
+            </div>
+            <div class="el-form-group">
+              <label>Exam Date</label>
+              <input type="date" id="elMarkDate" class="form-control">
+            </div>
+          </div>
+          <div class="el-form-group">
+            <label>Notes (optional)</label>
+            <input type="text" id="elMarkNotes" class="form-control" maxlength="500" placeholder="Optional remarks about this exam">
+          </div>
+          <div class="el-form-actions">
+            <button class="btn-secondary btn-sm" id="elCancelMarkBtn">Cancel</button>
+            <button class="btn-primary btn-sm" id="elSaveMarkBtn"><i class="fa-solid fa-floppy-disk"></i> Save Mark</button>
+          </div>
+          <input type="hidden" id="elEditMarkId" value="">
+        </div>
+
+        <!-- Marks Table -->
+        <div id="elMarksList" class="el-marks-table-wrap">
+          <div class="el-empty-state">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <p>No marks recorded yet. Select a subject above and click <strong>Add Mark Entry</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ TAB 3: PERFORMANCE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <div id="elTab-performance" class="el-tab-content">
+      <div class="el-card">
+        <div class="el-card-header">
+          <h2><i class="fa-solid fa-chart-bar"></i> Performance Overview</h2>
+          <div class="el-threshold-control">
+            <label>Improvement Threshold:</label>
+            <input type="number" id="elThresholdInput" class="form-control el-threshold-input" min="0" max="100" value="50" step="5">
+            <span>%</span>
+            <button class="btn-primary btn-sm" id="elSaveThresholdBtn">Save</button>
+          </div>
+        </div>
+
+        <div class="el-form-group" style="max-width:280px; margin-bottom:1.25rem;">
+          <label>Filter by Subject</label>
+          <select id="elPerfSubjectFilter" class="form-control">
+            <option value="">â€” All Subjects â€”</option>
+          </select>
+        </div>
+
+        <div id="elPerformanceGrid" class="el-performance-grid">
+          <div class="el-empty-state">
+            <i class="fa-solid fa-chart-bar"></i>
+            <p>No marks data to display. Enter marks first to see your performance breakdown.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ TAB 4: SYLLABUS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <div id="elTab-syllabus" class="el-tab-content">
+      <div class="el-card">
+        <div class="el-card-header">
+          <h2><i class="fa-solid fa-book-open"></i> Syllabus Management</h2>
+          <div class="el-syllabus-actions">
+            <select id="elSyllabusSubjectSelect" class="form-control el-subject-select">
+              <option value="">â€” Select Subject â€”</option>
+            </select>
+            <button class="btn-outline-primary btn-sm" id="elUploadSyllabusPdfBtn"><i class="fa-solid fa-file-arrow-up"></i> Parse PDF</button>
+            <button class="btn-primary btn-sm" id="elAddUnitBtn"><i class="fa-solid fa-plus"></i> Add Unit</button>
+            <input type="file" id="elSyllabusPdfInput" accept="application/pdf" style="display:none;">
+          </div>
+        </div>
+
+        <!-- Add/Edit Unit Form -->
+        <div id="elUnitFormWrap" class="el-inline-form" style="display:none;">
+          <div class="el-form-row">
+            <div class="el-form-group el-form-group-sm">
+              <label>Unit No. <span class="required">*</span></label>
+              <input type="number" id="elUnitNumber" class="form-control" min="1" value="1">
+            </div>
+            <div class="el-form-group">
+              <label>Unit Title <span class="required">*</span></label>
+              <input type="text" id="elUnitTitle" class="form-control" placeholder="e.g. Introduction to Data Structures" maxlength="200">
+            </div>
+          </div>
+          <div class="el-form-group">
+            <label>Description (optional)</label>
+            <input type="text" id="elUnitDescription" class="form-control" placeholder="Brief description of this unit" maxlength="1000">
+          </div>
+          <div class="el-form-actions">
+            <button class="btn-secondary btn-sm" id="elCancelUnitBtn">Cancel</button>
+            <button class="btn-primary btn-sm" id="elSaveUnitBtn"><i class="fa-solid fa-floppy-disk"></i> Save Unit</button>
+          </div>
+          <input type="hidden" id="elEditUnitId" value="">
+        </div>
+
+        <!-- Syllabus Tree -->
+        <div id="elSyllabusTree" class="el-syllabus-tree">
+          <div class="el-empty-state">
+            <i class="fa-solid fa-book-open"></i>
+            <p>Select a subject to view or manage its syllabus. Click <strong>Add Unit</strong> to begin, or <strong>Parse PDF</strong> to extract units from a syllabus PDF using AI.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ TAB 5: AI LEARNING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <div id="elTab-ai-learning" class="el-tab-content">
+      <div class="el-card">
+        <div class="el-card-header">
+          <h2><i class="fa-solid fa-wand-magic-sparkles ai-glow"></i> AI Learning Assistant</h2>
+        </div>
+
+        <div class="el-ai-controls">
+          <div class="el-form-row">
+            <div class="el-form-group">
+              <label>Subject</label>
+              <select id="elAiSubjectSelect" class="form-control">
+                <option value="">â€” Select Subject â€”</option>
+              </select>
+            </div>
+            <div class="el-form-group">
+              <label>Topic / Unit</label>
+              <input type="text" id="elAiTopicInput" class="form-control" placeholder="Enter topic or unit name">
+            </div>
+          </div>
+
+          <div class="el-ai-action-grid">
+            <button class="el-ai-action-btn" data-ai-action="recommend">
+              <i class="fa-solid fa-bullseye"></i>
+              <span>Recommend Topics</span>
+              <small>Based on your performance</small>
+            </button>
+            <button class="el-ai-action-btn" data-ai-action="explain">
+              <i class="fa-solid fa-lightbulb"></i>
+              <span>Explain Topic</span>
+              <small>Clear academic explanation</small>
+            </button>
+            <button class="el-ai-action-btn" data-ai-action="notes">
+              <i class="fa-solid fa-file-lines"></i>
+              <span>Generate Notes</span>
+              <small>Structured revision notes</small>
+            </button>
+            <button class="el-ai-action-btn" data-ai-action="summary">
+              <i class="fa-solid fa-compress-arrows-alt"></i>
+              <span>Summarize Unit</span>
+              <small>Concise unit summary</small>
+            </button>
+            <button class="el-ai-action-btn" data-ai-action="questions">
+              <i class="fa-solid fa-circle-question"></i>
+              <span>Practice Questions</span>
+              <small>With model answers</small>
+            </button>
+            <button class="el-ai-action-btn" data-ai-action="quiz">
+              <i class="fa-solid fa-bolt-lightning"></i>
+              <span>Quick Quiz</span>
+              <small>MCQ quiz on topic</small>
+            </button>
+            <button class="el-ai-action-btn" data-ai-action="revision">
+              <i class="fa-solid fa-calendar-check"></i>
+              <span>Revision Plan</span>
+              <small>Scheduled study plan</small>
+            </button>
+          </div>
+
+          <div class="el-ai-extra-row">
+            <div class="el-form-group">
+              <label>Difficulty (for questions/quiz)</label>
+              <select id="elAiDifficulty" class="form-control">
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+            <div class="el-form-group">
+              <label>Exam Date (for revision plan)</label>
+              <input type="date" id="elAiExamDate" class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Response Area -->
+        <div id="elAiResponseWrap" class="el-ai-response-wrap" style="display:none;">
+          <div class="el-ai-response-header">
+            <span id="elAiResponseLabel"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Response</span>
+            <button class="btn-icon" id="elAiClearBtn" title="Clear response"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div id="elAiResponseContent" class="el-ai-response-content"></div>
+        </div>
+
+        <div id="elAiLoadingWrap" class="el-ai-loading" style="display:none;">
+          <div class="el-ai-spinner"></div>
+          <span>AI is thinking...</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- End Exam & Learning Section -->
+      </main>
+
+    </div>
+  </div>
+
+  <!-- ==============================================
+       MODALS & DIALOGS
+       ============================================== -->
+
+  <!-- 1. AUTHENTICATION MODAL (Multi-User Registration & Login) -->
+  <div class="modal-backdrop" id="authModal">
+    <div class="modal-card auth-modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon blue"><i class="fa-solid fa-user-lock"></i></div>
+          <div>
+            <h3 id="authModalTitle">Student Authentication</h3>
+            <p class="modal-subtitle">Log in or create a student account to isolate and manage your academic data.</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeAuthModalBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        
+        <!-- Backend Connection Notice -->
+        <div class="backend-callout-banner" id="authBackendBanner">
+          <i class="fa-solid fa-database"></i>
+          <div>
+            <strong id="authBackendStatusHeading">Spring Boot Backend Ready (localhost:8080)</strong>
+            <p id="authBackendStatusText">Supports JWT authentication and MySQL storage. When offline, your account and records are kept safe in isolated browser storage.</p>
+          </div>
+        </div>
+
+        <!-- Auth Navigation Tabs -->
+        <div class="auth-tabs">
+          <button class="auth-tab-btn active" id="tabLoginBtn">Student Login</button>
+          <button class="auth-tab-btn" id="tabRegisterBtn">New Student Registration</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form active">
+          <div class="form-group">
+            <label for="loginEmail"><strong>Student Name or Email:</strong></label>
+            <input type="text" id="loginEmail" class="form-control" placeholder="Enter your student name or email" required autocomplete="username">
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword"><strong>Password:</strong></label>
+            <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required autocomplete="current-password">
+          </div>
+
+          <div class="form-group-checkbox">
+            <input type="checkbox" id="loginRememberMe" checked>
+            <label for="loginRememberMe">Remember this student session on this device</label>
+          </div>
+
+          <button type="submit" class="btn-primary w-100 mt-3" id="submitLoginBtn">
+            <i class="fa-solid fa-right-to-bracket"></i> Sign In to Student Portal
+          </button>
+        </form>
+
+        <!-- Registration Form -->
+        <form id="registerForm" class="auth-form d-none">
+          <div class="form-group">
+            <label for="regFullName"><strong>Name:</strong></label>
+            <input type="text" id="regFullName" class="form-control" placeholder="e.g., Jane Doe" required autocomplete="name">
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="regAcademicYear"><strong>Academic Year:</strong></label>
+              <select id="regAcademicYear" class="form-select" required>
+                <option value="" disabled selected>Select Academic Year</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+                <option value="Other / Higher Year">Other / Higher Year</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="regAge"><strong>Age:</strong></label>
+              <input type="number" id="regAge" class="form-control" min="10" max="120" placeholder="e.g., 20" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="regPassword"><strong>Password:</strong></label>
+            <input type="password" id="regPassword" class="form-control" placeholder="Create a secure password (min. 4 characters)" minlength="4" required autocomplete="new-password">
+          </div>
+
+          <button type="submit" class="btn-success w-100 mt-3" id="submitRegisterBtn">
+            <i class="fa-solid fa-user-plus"></i> Complete Student Registration
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. STUDENT PROFILE & GOALS MODAL -->
+  <div class="modal-backdrop" id="profileModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon blue"><i class="fa-solid fa-user-pen"></i></div>
+          <div>
+            <h3>Edit Student Profile & Academic Goals</h3>
+            <p class="modal-subtitle">Update your personal information and study targets.</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeProfileModalBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="editProfileForm">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="profileFullName"><strong>Full Name:</strong></label>
+              <input type="text" id="profileFullName" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="profileAcademicYear"><strong>Academic Year:</strong></label>
+              <select id="profileAcademicYear" class="form-select">
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+                <option value="Other / Higher Year">Other / Higher Year</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="profileAge"><strong>Age:</strong></label>
+              <input type="number" id="profileAge" class="form-control" min="10" max="120" placeholder="e.g., 20">
+            </div>
+            <div class="form-group">
+              <label for="profileStudentId"><strong>Student ID (Optional):</strong></label>
+              <input type="text" id="profileStudentId" class="form-control" placeholder="e.g., CS-2026-104">
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="profileMajor"><strong>Major / Degree (Optional):</strong></label>
+              <input type="text" id="profileMajor" class="form-control" placeholder="e.g., Computer Science B.S.">
+            </div>
+            <div class="form-group">
+              <label for="profileTerm"><strong>Current Academic Term (Optional):</strong></label>
+              <input type="text" id="profileTerm" class="form-control" placeholder="e.g., Fall 2026 â€¢ Semester 1">
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="profileWeeklyGoal"><strong>Weekly Study Target (Hours):</strong></label>
+              <input type="number" id="profileWeeklyGoal" class="form-control" min="5" max="80" step="1" placeholder="e.g., 20">
+            </div>
+            <div class="form-group">
+              <label for="profileTargetGpa"><strong>Target Term GPA (4.0 Scale):</strong></label>
+              <input type="number" id="profileTargetGpa" class="form-control" min="1.0" max="4.0" step="0.05" placeholder="e.g., 3.80">
+            </div>
+          </div>
+
+          <div class="modal-footer-actions">
+            <button type="button" class="btn-secondary" id="cancelProfileBtn">Cancel</button>
+            <button type="submit" class="btn-primary">
+              <i class="fa-solid fa-floppy-disk"></i> Save Profile Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. ADD / EDIT SUBJECT MODAL -->
+  <div class="modal-backdrop" id="subjectModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon blue"><i class="fa-solid fa-book-bookmark"></i></div>
+          <div>
+            <h3 id="subjectModalTitle">Add Enrolled Subject</h3>
+            <p class="modal-subtitle">Enter course details, credits, instructor, and current marks.</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeSubjectModalBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="subjectForm">
+          <input type="hidden" id="subjectEditId" value="">
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="subjectCodeInput"><strong>Course Code:</strong></label>
+              <input type="text" id="subjectCodeInput" class="form-control" placeholder="e.g., CS 301" required>
+            </div>
+            <div class="form-group">
+              <label for="subjectCreditsInput"><strong>Credit Hours:</strong></label>
+              <input type="number" id="subjectCreditsInput" class="form-control" min="1" max="8" step="0.5" value="3.0" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subjectTitleInput"><strong>Course Title:</strong></label>
+            <input type="text" id="subjectTitleInput" class="form-control" placeholder="e.g., Data Structures & Algorithms" required>
+          </div>
+
+          <div class="form-group">
+            <label for="subjectInstructorInput"><strong>Instructor / Professor:</strong></label>
+            <input type="text" id="subjectInstructorInput" class="form-control" placeholder="e.g., Dr. Vance Chen">
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="subjectCurrentMarkInput"><strong>Current Mark (%):</strong></label>
+              <input type="number" id="subjectCurrentMarkInput" class="form-control" min="0" max="100" step="0.5" placeholder="e.g., 88.5">
+            </div>
+            <div class="form-group">
+              <label for="subjectTargetMarkInput"><strong>Target Mark (%):</strong></label>
+              <input type="number" id="subjectTargetMarkInput" class="form-control" min="0" max="100" step="0.5" placeholder="e.g., 92.0">
+            </div>
+          </div>
+
+          <div class="modal-footer-actions">
+            <button type="button" class="btn-secondary" id="cancelSubjectBtn">Cancel</button>
+            <button type="submit" class="btn-primary" id="saveSubjectSubmitBtn">
+              <i class="fa-solid fa-plus"></i> Save Subject
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. SUBJECT MANAGEMENT LIST MODAL -->
+  <div class="modal-backdrop" id="manageSubjectsModal">
+    <div class="modal-card" style="max-width: 680px;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon blue"><i class="fa-solid fa-list"></i></div>
+          <div>
+            <h3>Your Enrolled Subjects</h3>
+            <p class="modal-subtitle">Add, edit, or remove subjects for the current semester.</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeManageSubjectsModalBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="d-flex-between mb-3">
+          <span style="font-size: 0.85rem; color: #64748b;" id="manageSubjectsSubtitle">0 subjects enrolled</span>
+          <button class="btn-sm btn-primary" id="manageAddSubjectBtn">
+            <i class="fa-solid fa-plus"></i> Add New Subject
+          </button>
+        </div>
+
+        <div class="manage-subjects-list" id="manageSubjectsListContainer">
+          <!-- Dynamically populated -->
+        </div>
+
+        <div class="modal-footer-actions">
+          <button type="button" class="btn-secondary" id="closeManageSubjectsDoneBtn">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. AI API CONFIGURATION MODAL -->
+  <div class="modal-backdrop" id="aiConfigModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon blue"><i class="fa-solid fa-plug-circle-bolt"></i></div>
+          <div>
+            <h3>AI Engine & API Connection</h3>
+            <p class="modal-subtitle">Connect your preferred AI provider to power live tutor responses, notes summarization, and quiz generation.</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeAiConfigModalBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="api-instruction-banner">
+          <i class="fa-solid fa-code"></i>
+          <div>
+            <strong>Architecture Integration Point</strong>
+            <p>Calls are routed through <code>window.AIService</code> in <code>js/app.js</code>. No fake simulated answers are returned when disconnected. To enable live AI, provide your Google Gemini API key or custom server endpoint below.</p>
+          </div>
+        </div>
+
+        <form id="aiConfigForm" class="api-config-form">
+          <div class="form-group">
+            <label for="aiProviderSelect"><strong>AI Provider:</strong></label>
+            <select id="aiProviderSelect" class="form-select">
+              <option value="gemini" selected>Google Gemini API (Recommended - Free Tier Available)</option>
+              <option value="openai">OpenAI API (GPT-4o / GPT-4o-mini)</option>
+              <option value="custom">Custom Student Assistant Backend Server</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="aiApiKeyInput"><strong>API Key:</strong></label>
+            <div class="input-password-wrap">
+              <input type="password" id="aiApiKeyInput" class="form-control" placeholder="Paste your Gemini or OpenAI API key here (stored in localStorage)">
+              <button type="button" class="btn-toggle-visibility" id="toggleApiKeyVisibilityBtn">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+            <small class="form-help-text">Your API key is saved exclusively in your browser's local storage and used directly for requests.</small>
+          </div>
+
+          <div class="form-group" id="endpointGroup">
+            <label for="aiEndpointInput"><strong>Endpoint / Model URL:</strong></label>
+            <input type="text" id="aiEndpointInput" class="form-control" value="https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent">
+            <small class="form-help-text">Default: <code>gemini-1.5-flash</code>. You can change this to your custom endpoint.</small>
+          </div>
+
+          <div class="status-preview-box">
+            <span>Status: <strong id="modalApiStatusText" class="text-amber">Pending API Key</strong></span>
+            <button type="button" class="btn-sm btn-outline-primary" id="testApiConnectionBtn">
+              <i class="fa-solid fa-satellite-dish"></i> Test Connection
+            </button>
+          </div>
+          <div id="testConnectionResult" class="test-result-box d-none"></div>
+
+          <div class="modal-footer-actions">
+            <button type="button" class="btn-secondary" id="cancelAiConfigBtn">Cancel</button>
+            <button type="submit" class="btn-primary">
+              <i class="fa-solid fa-floppy-disk"></i> Save & Connect AI
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. ADD NEW TASK MODAL -->
+  <div class="modal-backdrop" id="addTaskModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon indigo"><i class="fa-solid fa-calendar-check"></i></div>
+          <div>
+            <h3>Create New Academic Task</h3>
+            <p class="modal-subtitle">Add assignments, study goals, or revision tasks to your planner.</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeAddTaskModalBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="addTaskForm">
+          <div class="form-group">
+            <label for="taskTitleInput"><strong>Task Title:</strong></label>
+            <input type="text" id="taskTitleInput" class="form-control" placeholder="e.g., Review Week 4 Problem Set" required>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="taskSubjectSelect"><strong>Subject:</strong></label>
+              <select id="taskSubjectSelect" class="form-select">
+                <!-- Populated dynamically -->
+                <option value="General Studies">General Academic</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="taskPrioritySelect"><strong>Priority:</strong></label>
+              <select id="taskPrioritySelect" class="form-select">
+                <option value="High">High (Urgent)</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="taskDueDateInput"><strong>Due Date:</strong></label>
+              <input type="date" id="taskDueDateInput" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+              <label for="taskDurationInput"><strong>Estimated Time (mins):</strong></label>
+              <input type="number" id="taskDurationInput" class="form-control" min="15" max="300" step="15" value="45">
+            </div>
+          </div>
+
+          <div class="modal-footer-actions">
+            <button type="button" class="btn-secondary" id="cancelAddTaskBtn">Cancel</button>
+            <button type="submit" class="btn-primary">
+              <i class="fa-solid fa-plus"></i> Add Task
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. ADD EVENT TO CALENDAR MODAL -->
+  <div class="modal-backdrop" id="addEventModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon blue"><i class="fa-solid fa-calendar-plus"></i></div>
+          <div>
+            <h3>Schedule Academic Event</h3>
+            <p class="modal-subtitle">Add exams, project submissions, or dedicated study blocks.</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeAddEventModalBtn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <form id="addEventModalForm">
+          <div class="form-group">
+            <label for="modalEventTitle"><strong>Event Title:</strong></label>
+            <input type="text" id="modalEventTitle" class="form-control" placeholder="e.g., Midterm Exam, Problem Set 3" required>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="modalEventType"><strong>Category:</strong></label>
+              <select id="modalEventType" class="form-select">
+                <option value="exam">Exam / Midterm</option>
+                <option value="assignment" selected>Assignment Deadline</option>
+                <option value="study">Study Sprint Block</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="modalEventSubject"><strong>Subject:</strong></label>
+              <select id="modalEventSubject" class="form-select">
+                <!-- Populated dynamically -->
+                <option value="General Studies">General Academic</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="modalEventDate"><strong>Date:</strong></label>
+              <input type="date" id="modalEventDate" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+              <label for="modalEventTime"><strong>Time:</strong></label>
+              <input type="time" id="modalEventTime" class="form-control" value="10:00">
+            </div>
+          </div>
+
+          <div class="modal-footer-actions">
+            <button type="button" class="btn-secondary" id="cancelAddEventBtn">Cancel</button>
+            <button type="submit" class="btn-primary">
+              <i class="fa-solid fa-calendar-check"></i> Save Event
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Exam Pattern Delete Confirmation Modal -->
+  <div class="modal-backdrop" id="elDeleteConfirmModal" style="display:none; opacity:1; pointer-events:all;">
+    <div class="modal-card" style="max-width:420px;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="modal-icon" style="background:#fef2f2; color:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div>
+            <h3 id="elDeleteModalTitle">Confirm Deletion</h3>
+            <p class="modal-subtitle" id="elDeleteModalMsg">This action cannot be undone.</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer-actions">
+        <button class="btn-secondary" id="elDeleteCancelBtn">Cancel</button>
+        <button class="btn-danger" id="elDeleteConfirmBtn"><i class="fa-solid fa-trash"></i> Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Main Application Script -->
+  <script src="js/app.js"></script>
+  <script src="js/exam-learning.js"></script>
+</body>
+</html>

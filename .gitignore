@@ -1,0 +1,25 @@
+﻿# Private application configuration
+**/application.properties
+.env
+.env.*
+!.env.example
+
+# Build output
+**/target/
+**/build/
+
+# IDE and operating system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temporary testing scripts
+scratch/
+
+# Local database backups
+*.sql
+*.dump
